@@ -28,6 +28,7 @@
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1",
     "ts-node": "^9.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webdriverio": "^6.9.1"
   }
 }

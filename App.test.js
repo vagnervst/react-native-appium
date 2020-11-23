@@ -1,7 +1,8 @@
-describe('First test', () => {
+describe('Pages - App', () => {
+  it('should pass', async () => {
+    const field = await client.$('~test-element')
+    const fieldText = await field.getText()
 
-  it('should pass', () => {
-    expect(1+1).toBe(2)
+    expect(fieldText).toBe('Step One')
   })
-
 })
