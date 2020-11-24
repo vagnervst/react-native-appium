@@ -1,0 +1,44 @@
+import React from 'react'
+import 'react-native-gesture-handler'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { LaunchArguments } from 'react-native-launch-arguments'
+
+import LoginPage from './pages/Login'
+import Transactions from './pages/Transactions'
+import TransactionDetails from './pages/TransactionDetails'
+
+import client from './clients/pagarme'
+
+const Stack = createStackNavigator()
+
+const App = () => {
+  const linking = {
+    prefixes: ['e2e://'],
+    config: {
+      screens: {
+        Login: 'Login',
+        Transactions: 'Transactions',
+        TransactionDetails: 'TransactionDetails',
+      },
+    },
+  }
+
+  const { apiKey } = LaunchArguments.value()
+
+  if (apiKey) {
+    client.authenticate({ api_key: apiKey })
+  }
+
+  return (
+    <NavigationContainer linking={linking}>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginPage} />
+        <Stack.Screen name="Transactions" component={Transactions} />
+        <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export default App
