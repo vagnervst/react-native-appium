@@ -1,5 +1,6 @@
 const NodeEnvironment = require('jest-environment-node')
 const wdio = require('webdriverio')
+const appium = require('appium')
 
 const opts = {
   path: '/wd/hub',
@@ -11,7 +12,7 @@ const opts = {
     app: './android/app/build/outputs/apk/debug/app-debug.apk',
     appPackage: 'com.appiumapptypescript',
     appActivity: '.MainActivity',
-    automationName: 'UiAutomator2'
+    automationName: 'UiAutomator2',
   }
 }
 
@@ -26,6 +27,8 @@ class CustomEnvironment extends NodeEnvironment {
   async setup () {
     await super.setup()
 
+    this.appium = await appium.main({ 'loglevel': 'none' })
+
     this.global.client = await wdio.remote(opts)
   }
 
@@ -35,6 +38,8 @@ class CustomEnvironment extends NodeEnvironment {
     if (this.global.client) {
       await this.global.client.deleteSession()
     }
+
+    await this.appium.close()
   }
 }
 
