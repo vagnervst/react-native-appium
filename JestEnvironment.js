@@ -27,6 +27,21 @@ class CustomEnvironment extends NodeEnvironment {
 
     this.testPath = context.testPath
     this.docblockPragmas = context.docblockPragmas
+    this.openAppLink = this.openAppLink.bind(this)
+  }
+
+  async openAppLink (url) {
+    const { driver } = this.global
+
+    if (!driver) throw new Error('appium driver not initialized')
+
+    const deepLinkIntent = `-a android.intent.action.VIEW -d ${url}`
+
+    return driver.startActivity({
+      appPackage: 'com.appiumapptypescript',
+      appActivity: '.MainActivity',
+      optionalIntentArguments: deepLinkIntent,
+    })
   }
 
   async setup () {
@@ -44,6 +59,7 @@ class CustomEnvironment extends NodeEnvironment {
     pagarmeClient.authenticate({ api_key: process.env.API_KEY })
 
     this.global.driver = driver
+    this.global.openAppLink = this.openAppLink
     this.global.pagarme = pagarmeClient
   }
 
