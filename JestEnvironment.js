@@ -27,6 +27,10 @@ const initializeDriver = (driver) => {
   return driver.init(options)
 }
 
+const sleep = timeout => new Promise(
+  resolve => setTimeout(() => resolve(), timeout)
+)
+
 class CustomEnvironment extends NodeEnvironment {
   constructor(config, context) {
     super(config, context)
@@ -71,6 +75,7 @@ class CustomEnvironment extends NodeEnvironment {
     this.global.driver = driver
     this.global.openAppLink = this.openAppLink
     this.global.pagarme = pagarmeClient
+    this.global.sleep = sleep
   }
 
   async teardown () {
