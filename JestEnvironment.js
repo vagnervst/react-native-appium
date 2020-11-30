@@ -3,8 +3,14 @@ require('dotenv').config()
 const NodeEnvironment = require('jest-environment-node')
 const appium = require('appium')
 const wd = require('wd')
+const isPortReachable = require('is-port-reachable')
+const { resolve } = require('path')
+
 const pagarme = require('./src/clients/pagarme')
 
+const APPIUM_PORT = 4723
+
+const isAppiumInspectorRunning = () => isPortReachable(APPIUM_PORT)
 
 const initializeDriver = (driver) => {
   const options = {
@@ -47,6 +53,10 @@ class CustomEnvironment extends NodeEnvironment {
   async setup () {
     await super.setup()
 
+    const isInspectorRunning = await isAppiumInspectorRunning()
+    if (!isInspectorRunning) {
+      this.appium = await appium.main({ 'loglevell': 'none' })
+    }
 
     const driver = await wd.promiseChainRemote({
       host: '127.0.0.1',
