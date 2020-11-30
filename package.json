@@ -41,6 +41,6 @@
     "react-test-renderer": "16.13.1",
     "ts-node": "^9.0.0",
     "typescript": "^3.8.3",
-    "webdriverio": "^6.9.1"
+    "wd": "^1.13.0"
   }
 }
