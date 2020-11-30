@@ -1,6 +1,9 @@
+require('dotenv').config()
+
 const NodeEnvironment = require('jest-environment-node')
 const appium = require('appium')
 const wd = require('wd')
+const pagarme = require('./src/clients/pagarme')
 
 
 const initializeDriver = (driver) => {
@@ -37,7 +40,11 @@ class CustomEnvironment extends NodeEnvironment {
 
     await initializeDriver(driver)
 
+    const pagarmeClient = pagarme()
+    pagarmeClient.authenticate({ api_key: process.env.API_KEY })
+
     this.global.driver = driver
+    this.global.pagarme = pagarmeClient
   }
 
   async teardown () {

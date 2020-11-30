@@ -2,7 +2,7 @@ import React from 'react'
 
 import TransactionDetailsContainer from '../../containers/TransactionDetails'
 
-import pagarme from '../../clients/pagarme'
+import { usePagarmeState } from '../../PagarmeContext'
 
 type PropTypes = {
   route: {
@@ -15,6 +15,7 @@ type PropTypes = {
 const TransactionDetails = ({
   route,
 } : PropTypes) => {
+  const pagarme = usePagarmeState()
   const transactionId = route.params.id
 
   const providers = {

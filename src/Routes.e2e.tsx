@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LaunchArguments } from 'react-native-launch-arguments'
+import { API_KEY } from '@env'
 
 import LoginPage from './pages/Login'
 import Transactions from './pages/Transactions'
 import TransactionDetails from './pages/TransactionDetails'
 
-import client from './clients/pagarme'
+import pagarme from './clients/pagarme'
+
+import { usePagarmeDispatch } from './PagarmeContext'
 
 const Stack = createStackNavigator()
 
 const App = () => {
+  const pagarmeDispatch = usePagarmeDispatch()
+
   const linking = {
     prefixes: ['e2e://'],
     config: {
@@ -24,7 +28,13 @@ const App = () => {
     },
   }
 
-  const { apiKey } = LaunchArguments.value()
+  useEffect(() => {
+    const client = pagarme()
+
+    client.authenticate({ api_key: API_KEY })
+
+    pagarmeDispatch(client)
+  }, [])
 
   if (apiKey) {
     client.authenticate({ api_key: apiKey })

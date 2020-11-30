@@ -1,17 +1,17 @@
-import buildRequest from './buildRequest'
+const buildRequest = require('./buildRequest')
 
 const client = () => {
   let authentication = {}
 
   const transactions = {
-    findOne: (id: number) => buildRequest({
+    findOne: (id) => buildRequest({
       method: 'GET',
       path: `/transactions/${id}`,
       params: {
         ...authentication,
       },
     }),
-    findAll: (params?: object) => buildRequest({
+    findAll: (params) => buildRequest({
       method: 'GET',
       path: '/transactions',
       params: {
@@ -19,16 +19,24 @@ const client = () => {
         ...authentication,
       },
     }),
-    refund: (id: number) => buildRequest({
+    refund: (id) => buildRequest({
       method: 'POST',
       path: `/transactions/${id}/refund`,
       params: {
         ...authentication,
       },
-    })
+    }),
+    create: (body) => buildRequest({
+      method: 'POST',
+      path: '/transactions',
+      params: {
+        ...authentication,
+      },
+      body,
+    }),
   }
 
-  const authenticate = async (params: any) => {
+  const authenticate = async (params) => {
     try {
       if (params.email && params.password) {
         const { session_id } = await buildRequest({
@@ -54,4 +62,4 @@ const client = () => {
   }
 }
 
-export default client()
+module.exports = client
