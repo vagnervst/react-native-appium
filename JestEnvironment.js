@@ -59,7 +59,7 @@ class CustomEnvironment extends NodeEnvironment {
 
     const isInspectorRunning = await isAppiumInspectorRunning()
     if (!isInspectorRunning) {
-      this.appium = await appium.main({ 'loglevell': 'none' })
+      this.appium = await appium.main({ 'loglevel': 'none' })
     }
 
     const driver = await wd.promiseChainRemote({
