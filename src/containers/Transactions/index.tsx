@@ -34,7 +34,7 @@ const Item = ({
   onPress,
 }: { item: Transaction, onPress: Function }) => (
   <TouchableHighlight
-    testID={item.id.toString()}
+    accessibilityLabel={item.id.toString()}
     onPress={() => onPress(item.id)}
   >
     <Text style={styles.item}>
@@ -50,7 +50,6 @@ const TransactionsContainer = ({
   refreshing,
 }: Props) => (
   <FlatList
-    testID="flatList"
     data={transactions}
     onRefresh={onRefresh}
     refreshing={refreshing}
