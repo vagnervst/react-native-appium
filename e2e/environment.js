@@ -1,20 +1,16 @@
 require('dotenv').config()
 
 const NodeEnvironment = require('jest-environment-node')
-const appium = require('appium')
 const wd = require('wd')
-const isPortReachable = require('is-port-reachable')
 const { resolve } = require('path')
 
-const pagarme = require('./src/clients/pagarme')
+const pagarme = require('../src/clients/pagarme')
 
 const APPIUM_PORT = 4723
 
-const isAppiumInspectorRunning = () => isPortReachable(APPIUM_PORT)
-
 const initializeDriver = (driver) => {
   const options = {
-    autoLaunch: true,
+    autoLaunch: false,
     platformName: 'Android',
     platformVersion: '9',
     deviceName: 'Android Emulator',
@@ -57,11 +53,6 @@ class CustomEnvironment extends NodeEnvironment {
   async setup () {
     await super.setup()
 
-    const isInspectorRunning = await isAppiumInspectorRunning()
-    if (!isInspectorRunning) {
-      this.appium = await appium.main({ 'loglevel': 'none' })
-    }
-
     const driver = await wd.promiseChainRemote({
       host: '127.0.0.1',
       port: APPIUM_PORT,
@@ -73,6 +64,7 @@ class CustomEnvironment extends NodeEnvironment {
     pagarmeClient.authenticate({ api_key: process.env.API_KEY })
 
     this.global.driver = driver
+    this.global.wd = wd
     this.global.openAppLink = this.openAppLink
     this.global.pagarme = pagarmeClient
     this.global.sleep = sleep
@@ -81,8 +73,8 @@ class CustomEnvironment extends NodeEnvironment {
   async teardown () {
     await super.teardown()
 
-    if (this.appium) {
-      await this.appium.close()
+    if (this.global.driver) {
+      await this.global.driver.quit()
     }
   }
 }

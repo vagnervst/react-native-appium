@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "env:e2e": "node scripts/set-environment.js e2e",
-    "test": "yarn env:e2e && jest --forceExit",
+    "test": "yarn env:e2e && jest --detectOpenHandles",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {

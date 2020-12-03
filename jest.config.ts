@@ -54,10 +54,10 @@ export default {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: undefined,
+  globalSetup: './e2e/setup.js',
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  // globalTeardown: undefined,
+  globalTeardown: './e2e/teardown.js',
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
@@ -137,7 +137,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "./JestEnvironment.js",
+  testEnvironment: "./e2e/environment.js",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -147,7 +147,7 @@ export default {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/?(*.)+(spec|test).[tj]s?(x)"
+    "**/?(*.)+(spec|test|e2e).[tj]s?(x)"
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
