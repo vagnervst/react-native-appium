@@ -36,10 +36,6 @@ const App = () => {
     pagarmeDispatch(client)
   }, [])
 
-  if (apiKey) {
-    client.authenticate({ api_key: apiKey })
-  }
-
   return (
     <NavigationContainer linking={linking}>
       <Stack.Navigator>

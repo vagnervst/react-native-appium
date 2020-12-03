@@ -4,7 +4,7 @@ import { ENV } from '@env'
 import { PagarmeProvider } from './PagarmeContext'
 
 const Routes = React.lazy(() => ENV === 'e2e'
-  ? import('./Routes.e2e')
+  ? import('./RoutesE2E')
   : import('./Routes')
 )
 
