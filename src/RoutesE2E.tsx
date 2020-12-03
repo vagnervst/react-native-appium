@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { API_KEY } from '@env'
+import { E2E_API_KEY } from '@env'
 
 import LoginPage from './pages/Login'
 import Transactions from './pages/Transactions'
@@ -31,7 +31,7 @@ const App = () => {
   useEffect(() => {
     const client = pagarme()
 
-    client.authenticate({ api_key: API_KEY })
+    client.authenticate({ api_key: E2E_API_KEY })
 
     pagarmeDispatch(client)
   }, [])

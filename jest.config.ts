@@ -3,6 +3,12 @@
  * https://jestjs.io/docs/en/configuration.html
  */
 
+require('dotenv').config()
+
+const env = process.env.ENV
+
+const isE2e = env === 'e2e'
+
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -54,10 +60,10 @@ export default {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  globalSetup: './e2e/setup.js',
+  globalSetup: isE2e ? './e2e/setup.js' : '',
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  globalTeardown: './e2e/teardown.js',
+  globalTeardown: isE2e ? './e2e/teardown.js' : '',
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
@@ -137,7 +143,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "./e2e/environment.js",
+  testEnvironment: isE2e ? "./e2e/environment.js" : '',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -147,7 +153,7 @@ export default {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/?(*.)+(spec|test|e2e).[tj]s?(x)"
+    `**/?(*.)+(spec|test${isE2e ? '|e2e' : ''}).[tj]s?(x)`,
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
